@@ -1,0 +1,10 @@
+returnNeutrons 0
+returnProtons 0
+returnGammas 0
+returnElectrons 0
+returnMuons 1
+returnPions 0
+date 7-1-2019
+latitude 35.95
+altitude 0
+subboxLength 10

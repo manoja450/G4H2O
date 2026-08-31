@@ -1,0 +1,95 @@
+# Build directories
+build/
+build*/
+G4d2o-build/
+buildinteractive/
+cmake-build*/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Executables and libraries
+*.o
+*.obj
+*.a
+*.so
+*.exe
+*.pcm
+*.rootmap
+G4d2o
+
+# Simulation output
+OUTPUT/
+SLURMOUT/
+ModuleType/
+
+# Simulation/result directories
+Sim/
+Sim*/
+Simulation/
+Results/
+
+# Analysis plots
+mac/PLOTS/
+mac/PLOTS*/
+mac/validation_plots/
+mac/diagnostic_plots/
+mac/*plots*/
+mac/*Plots*/
+
+# ROOT files
+*.root
+
+# Image files
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Logs
+*.log
+*.out
+*.err
+slurm-*
+nohup.out
+
+# Simulation history/data
+data/beamOnFiles/
+data/fileHistories/
+seedHistory.dat
+
+# Temporary files
+*.sw?
+*.swp
+*.swo
+*.bak
+*~
+.nfs*
+
+# Backup files
+*.BACKUP
+
+# Python cache
+__pycache__/
+*.pyc
+data/
+*.BACKUP
+*.ORIGINAL
+data/
+*.BAKCUP
+
+# Local data
+data/
+
+# Backup/original files
+*.BAKCUP
+*.BACKUP
+*.bak
+*.ORIGINAL
+
+# Local ROOT libraries
+lib/

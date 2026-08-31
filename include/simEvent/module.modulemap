@@ -1,0 +1,8 @@
+module "simEvent" {
+  requires cplusplus
+  module "G4d2oGeom.h" { header "G4d2oGeom.h" export * }
+  module "simEvent.h" { header "simEvent.h" export * }
+  link "libsimEvent.so"
+  export *
+}
+

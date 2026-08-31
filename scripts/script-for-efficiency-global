@@ -1,0 +1,44 @@
+// This script is meant to be used in an interactive root section, where
+// you already have loaded a previous macro. It might be a lazy way to get
+// something done quickly. For reference, only.
+
+// Use your existing histogram pointer
+  TH1D* h = h_nhits_weighted;
+  if (!h) { Error("tail_dump","h_nhits_weighted not found"); return; }
+
+  // Total (weighted) counts in-range
+  const int nb = h->GetNbinsX();
+  const double total = h->Integral(1, nb);
+  if (total <= 0) { Error("tail_dump","Histogram is empty"); return; }
+
+  std::ofstream out("tail_fraction_h_nhits_weighted.txt");
+  out << std::fixed << std::setprecision(6);
+
+  // For each integer x, compute fraction of entries with value > x
+  for (int x = 0; x <= 700; ++x) {
+    int bin = h->GetXaxis()->FindBin(x);
+    // Include the bin if its UPPER edge is strictly greater than x
+    // (so x=0 includes the first bin -> 100%; x=700 includes none -> 0%)
+    double upEdge = h->GetXaxis()->GetBinUpEdge(bin);
+
+    int start = (upEdge > x) ? bin : (bin + 1); // first bin to include
+    if (start < 1) start = 1;
+    if (start > nb) { out << x << "," << 0.0 << "\n"; continue; }
+
+    double tail = h->Integral(start, nb) / total;
+    out << x << "," << tail << "\n";
+  }
+
+  out.close();
+  printf("Wrote tail fractions to tail_fraction_h_nhits_weighted.txt\n");
+
+
+
+
+
+  std::ifstream in("tail_fraction_h_nhits_weighted.txt");
+  std::vector<double> vx, vy; int xi; double yi; char comma;
+  while (in >> xi >> comma >> yi) { vx.push_back(xi); vy.push_back(yi); }
+  auto g = new TGraph(vx.size(), vx.data(), vy.data());
+  g->SetTitle("Detector Efficiency vs Cutoff level (PEs);Cutoff level (PEs);Detector Efficiency");
+  g->Draw("AL");
