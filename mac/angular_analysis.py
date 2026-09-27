@@ -1,19 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-================================================================================
-COMPLETE ANALYSIS: FUNCTIONS A, C VALIDATION + TYVEK REFLECTIVITY ANALYSIS
-(REDUCED - removed: color_legend, diagnostic_0_5, diagnostic_S_and_L)
-================================================================================
-NORMALIZATION FIX APPLIED INTERNALLY - Chavarria curves are zero-padded outside
-their measured support then renormalized (equivalent to normalizing over just
-their own measured range). The simulation's tyvek_2 comparison plots now use
-a matching RESTRICTED normalization (see get_histogram_for_angle's
-restrict_range parameter and get_chavarria_support_range) so both sides are
-normalized over the SAME window before being compared.
-================================================================================
-"""
-
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -42,9 +28,6 @@ class Tee:
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['mathtext.fontset'] = 'cm'
 
-# ============================================================================
-# GLOBAL COLOR SCHEME
-# ============================================================================
 COLORS = {
     'chavarria':             'blue',
     'simulation':             'red',
@@ -64,9 +47,9 @@ COLORS = {
 # CONFIGURATION
 # ============================================================================
 
-CHAVARRIA_DATA_DIR = "/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4d2o_DATA_DRIVEN_COPY/angular_data"
-OUTPUT_BASE_DIR = "/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4d2o_DATA_DRIVEN_COPY/mac"
-DATA_DIR = "/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4d2o_DATA_DRIVEN_COPY/data"
+CHAVARRIA_DATA_DIR = "/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4H2O/angular_data"
+OUTPUT_BASE_DIR = "/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4H2O/mac"
+DATA_DIR = "/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4H2O/data"
 
 PROCESS_ALL_EVENTS = True
 MAX_EVENTS_TO_PROCESS = 1000000
@@ -294,10 +277,6 @@ def get_histogram_for_angle(angle, restrict_range=None):
     errors = np.sqrt(counts) / n_norm
     return HIST_BIN_CENTERS, pdf, errors, n_total
 
-# ============================================================================
-# 3b. INTERPOLATION - FIXED to use a common target grid (normalization fix)
-# ============================================================================
-
 def get_interpolated_chavarria_pdf(incident_angle, target_theta=None):
     if target_theta is None:
         target_theta = HIST_BIN_CENTERS
@@ -324,10 +303,6 @@ def get_interpolated_chavarria_pdf(incident_angle, target_theta=None):
     pdf_interp = pdf_interp / np.sum(pdf_interp)
     return target_theta, pdf_interp
 
-# ============================================================================
-# 3c. SINGLE-ANGLE RENORMALIZATION (for overlay plots)
-# ============================================================================
-
 def get_chavarria_on_full_grid(angle, target_theta=None):
     if target_theta is None:
         target_theta = HIST_BIN_CENTERS
@@ -337,10 +312,6 @@ def get_chavarria_on_full_grid(angle, target_theta=None):
     pdf_interp = np.interp(target_theta, theta_raw, pdf_raw, left=0, right=0)
     pdf_interp = pdf_interp / np.sum(pdf_interp)
     return target_theta, pdf_interp
-
-# ============================================================================
-# 3d. TOLERANCE WINDOW SKEW CHECK
-# ============================================================================
 
 def _fit_free_peak_to_curve(theta_grid, pdf_fine):
     max_y = np.max(pdf_fine)
@@ -506,10 +477,6 @@ def perform_constrained_fit(theta, counts, phi, n_total):
         print(f"    [debug] perform_constrained_fit failed: {e}")
         return None
 
-# ============================================================================
-# 7. FUNCTION A (Interpolation) PLOTS – clean, no mention of normalisation
-# ============================================================================
-
 def plot_function_a():
     theta_10_renorm, pdf_10_renorm = get_chavarria_on_full_grid(10, target_theta=HIST_BIN_CENTERS)
     theta_20_renorm, pdf_20_renorm = get_chavarria_on_full_grid(20, target_theta=HIST_BIN_CENTERS)
@@ -604,10 +571,6 @@ def plot_function_a_all():
     print(f"Function A (all) plot saved: {output_file}")
     return str(output_file)
 
-# ============================================================================
-# 8. FUNCTION C (CDF Sampling)
-# ============================================================================
-
 def plot_function_c():
     test_angles = [0, 20, 40, 60]
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
@@ -656,10 +619,6 @@ def plot_function_c():
     plt.close()
     print(f"Function C plot saved: {output_file}")
     return str(output_file)
-
-# ============================================================================
-# 9. TYVEK PLOTS
-# ============================================================================
 
 def plot_tyvek_gaussian_lambertian_fits():
     results = []
@@ -784,10 +743,6 @@ def plot_tyvek_gaussian_lambertian_fit_components(results):
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
     plt.close()
     print(f"Gaussian + Lambertian fit (with components) plot saved: {output_file}")
-
-# ============================================================================
-# OVERLAY PLOTS (no N count, descriptive filenames)
-# ============================================================================
 
 def plot_tyvek_sim_vs_chavarria_measurement_no_Nevent():
     """
@@ -933,10 +888,6 @@ def plot_tyvek_sim_full_norm_chav_restricted():
     plt.close()
     print(f"Tyvek plot (sim full norm, chav restricted, no N) saved: {output_file}")
 
-# ============================================================================
-# Rest of tyvek plots (ratio, overlay etc.) - unchanged
-# ============================================================================
-
 def plot_tyvek_ratio_comparison(results):
     print("\n" + "="*70)
     print("TYVEK PLOT 3: Ratio Comparison (CHAVARRIA EXPERIMENTAL MEASUREMENT - WATER VALUES, S/L integral ratio)")
@@ -1019,10 +970,6 @@ def plot_tyvek_overlay_all_angles():
     plt.close()
     print(f"Tyvek Plot 4 (Normalized) saved: {output_file}")
 
-# ============================================================================
-# 11. ADDITIONAL PLOTS - clean, no mention of normalisation
-# ============================================================================
-
 def plot_interpolation_only_13deg():
     theta_10_renorm, pdf_10_renorm = get_chavarria_on_full_grid(10, target_theta=HIST_BIN_CENTERS)
     theta_20_renorm, pdf_20_renorm = get_chavarria_on_full_grid(20, target_theta=HIST_BIN_CENTERS)
@@ -1103,10 +1050,6 @@ def plot_chavarria_vs_simulation_specific_angle(angle=10):
     plt.savefig(OUTPUT_DIR / f'new_chavarria_vs_simulation_{angle}deg.png', dpi=150)
     plt.close()
     print(f"New plot (specific angle {angle}) saved: {OUTPUT_DIR / f'new_chavarria_vs_simulation_{angle}deg.png'}")
-
-# ============================================================================
-# 12. MISSING FUNCTIONS
-# ============================================================================
 
 def plot_new_chavarria_model_fit():
     print("\n" + "="*70)
@@ -1222,10 +1165,6 @@ def plot_new_constrained_fit():
     print(f"Constrained fit plot saved: {output_file}")
     return results
 
-# ============================================================================
-# 13. RATIO NO-ERROR PLOTS
-# ============================================================================
-
 def plot_ratio_no_errors_generic(results, output_filename, method_label):
     print("\n" + "="*70)
     print(f"PLOT: Ratio Comparison (NO ERROR BARS) - {method_label}")
@@ -1275,10 +1214,6 @@ def plot_ratio_no_errors_generic(results, output_filename, method_label):
     plt.close()
     print(f"{method_label} ratio comparison (no errors) saved: {output_file}")
 
-# ============================================================================
-# 14. SUMMARY TABLES
-# ============================================================================
-
 def print_summary_tables(results):
     if not results:
         return
@@ -1314,17 +1249,9 @@ def print_summary_tables(results):
         print(f"Average factor: {np.mean(ratios):.2f}x")
         print(f"Range: {np.min(ratios):.2f}x to {np.max(ratios):.2f}x")
 
-# ============================================================================
-# 15. MAIN
-# ============================================================================
-
 print("\n" + "="*70)
 print("RUNNING ALL PLOTS")
 print("="*70)
-
-# Removed: plot_color_legend()
-# Removed: plot_0_5_degree_bin_check()
-# Removed: plot_S_and_L_separate()
 
 plot_function_a()
 plot_function_a_all()
@@ -1333,7 +1260,6 @@ plot_function_c()
 tyvek_results = plot_tyvek_gaussian_lambertian_fits()
 plot_tyvek_gaussian_lambertian_fit_components(tyvek_results)
 
-# Overlay plots with restricted normalization (no N count)
 plot_tyvek_sim_vs_chavarria_measurement_no_Nevent()       # both restricted, full x
 plot_tyvek_restricted_range_only()                        # both restricted, xlim = -85,85
 plot_tyvek_sim_full_norm_chav_restricted()               # sim full, chav restricted
