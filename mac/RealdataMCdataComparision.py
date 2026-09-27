@@ -20,9 +20,7 @@ sim_path = os.path.join(data_dir, "Sim_D2ODetector612.root")
 plots_dir = os.path.join(os.getcwd(), "PLOTS")
 os.makedirs(plots_dir, exist_ok=True)
 
-# ============================================================
-# ROOT-like plotting style
-# ============================================================
+
 plt.rcParams.update({
     "font.family": "DejaVu Serif",
     "font.size": 18,
@@ -35,21 +33,14 @@ plt.rcParams.update({
 cut_value = 60.0  # PE
 
 # Per-PMT quality cut: every PMT (0-11) must register at least this many
-# hits for the event to pass - applied only to simulation, since it
-# needs per-PMT hit info the real-data histogram doesn't carry.
+# hits for the event to pass 
 MIN_HITS_PER_PMT = 2
 N_PMTS = 12
 
-# Target bin width for both histograms (real data comes off the ROOT
-# file with a native 8 PE bin width - rebin it to this width instead).
 TARGET_BIN_WIDTH = 10.0  # PE
 
 
 def rebin_to_width(src_edges, src_counts, target_width):
-    """Proportional-overlap rebin: redistributes each source bin's count
-    into the new, wider bins by the fraction of the source bin that
-    falls inside each new bin. Needed because the real-data histogram's
-    native 8 PE bins don't divide evenly into 10 PE bins."""
     lo = src_edges[0]
     hi = src_edges[-1]
     n_new = int(round((hi - lo) / target_width))
@@ -74,10 +65,6 @@ def rebin_to_width(src_edges, src_counts, target_width):
 
 
 def build_pmt_quality_mask(pmt_num, min_hits_per_pmt=MIN_HITS_PER_PMT, n_pmts=N_PMTS):
-    """Per-event mask: True only if every PMT (0..n_pmts-1) registered at
-    least min_hits_per_pmt hits in that event. pmt_num is a jagged
-    awkward array (one variable-length list of PMT indices per event,
-    from pmtHits/pmtHits.pmtNum)."""
     mask = np.empty(len(pmt_num), dtype=bool)
     for i, evt in enumerate(pmt_num):
         evt_np = np.asarray(ak.to_numpy(evt), dtype=np.int64)
@@ -104,10 +91,8 @@ first_bin = np.where(centers >= cut_value)[0][0]
 michel_edges_native = edges[first_bin:]
 michel_counts_native = counts[first_bin:]
 
-# Rebin real data from its native 8 PE bins to TARGET_BIN_WIDTH (10 PE)
 michel_edges, michel_counts = rebin_to_width(michel_edges_native, michel_counts_native, TARGET_BIN_WIDTH)
 
-# Normalize (with Poisson errors on the raw counts, before normalizing)
 michel_counts_err = np.sqrt(michel_counts)
 michel_total = michel_counts.sum()
 michel_norm = michel_counts / michel_total
@@ -145,9 +130,6 @@ sim_total = sim_counts.sum()
 sim_norm = sim_counts / sim_total
 sim_norm_err = sim_counts_err / sim_total
 
-# ============================================================
-# Bin width (for y-axis label) and bin centers (for error bars)
-# ============================================================
 bin_width = michel_edges[1] - michel_edges[0]
 bin_centers = (michel_edges[:-1] + michel_edges[1:]) / 2
 
@@ -174,7 +156,7 @@ ax.stairs(
     label="Real Data"
 )
 
-# Statistical (Poisson) error bars on both curves
+
 ax.errorbar(
     bin_centers, sim_norm, yerr=sim_norm_err,
     fmt="none", ecolor="red", elinewidth=1.1, capsize=0, alpha=0.65
@@ -196,7 +178,6 @@ ax.set_ylabel(f"Normalized Counts / {bin_width:g} PE", fontsize=22)
 
 ax.set_title("Michel Electron Spectrum", fontsize=26, pad=15)
 
-# ROOT-like ticks
 ax.minorticks_on()
 
 ax.tick_params(
@@ -220,10 +201,10 @@ ax.tick_params(
     right=True
 )
 
-# Remove grid
+
 ax.grid(False)
 
-# Legend
+
 ax.legend(
     loc="upper right",
     fontsize=18,
@@ -235,7 +216,7 @@ ax.legend(
 
 plt.tight_layout()
 
-# Save figure into PLOTS/
+
 pdf_out = os.path.join(plots_dir, "MichelSpectrumComparison.pdf")
 png_out = os.path.join(plots_dir, "MichelSpectrumComparison.png")
 
@@ -246,9 +227,7 @@ print(f"Saved plot to: {png_out}")
 
 plt.show()
 
-# ============================================================
-# Statistics
-# ============================================================
+
 michel_centers = (michel_edges[:-1] + michel_edges[1:]) / 2
 michel_mean = np.average(michel_centers, weights=michel_counts)
 
@@ -262,11 +241,6 @@ print(f"G4 Monte Carlo Mean PE : {num_hits.mean():.2f}")
 print(f"G4 Monte Carlo Median  : {np.median(num_hits):.2f}")
 print("=" * 60)
 
-# ============================================================
-# Plot 2: Same comparison as above, with a residual/pull panel
-# underneath - residual = (Real - Sim) / combined statistical error,
-# per bin, on the same normalized curves already computed above.
-# ============================================================
 combined_err = np.sqrt(michel_norm_err**2 + sim_norm_err**2)
 has_err = combined_err > 0
 residual = np.full_like(combined_err, np.nan)
@@ -277,7 +251,6 @@ gs = fig2.add_gridspec(2, 1, height_ratios=[3, 1], hspace=0.06)
 ax_main = fig2.add_subplot(gs[0])
 ax_res = fig2.add_subplot(gs[1], sharex=ax_main)
 
-# --- Main panel (same content/style as Plot 1) ---
 ax_main.stairs(sim_norm, michel_edges, color="red", linewidth=1.5, label="G4 Monte Carlo")
 ax_main.stairs(michel_norm, michel_edges, color="blue", linewidth=1.5, label="Real Data")
 
