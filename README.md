@@ -2,12 +2,6 @@
 
 ## Status as of August 31, 2026
 
-This is the G4H2O simulation repository, maintained by Manoj Adhikari, who developed and implemented the Data-Driven Tyvek Optical Reflection Model used in the Module 2 detector simulation, described below.
-
-The repository was originally created and developed by Igor Bernardi during his Ph.D. work with the COHERENT Collaboration. The overall folder and file structure is believed to have originated from Matthew Blackstone, while Karla Tellez also contributed to the development of the simulation framework during her time in the collaboration.
-
-The complete detector geometry—including essentially all detector components except the photomultiplier tubes—was developed by Igor Bernardi and represents the detector as built using the best available engineering dimensions. The original geometry and optical simulation were developed for the Module 1 (D₂O + H₂O) detector.
-
 In the original implementation, the Tyvek reflector was modelled using a 100% diffuse (Lambertian cosine) reflection model, where every reflected optical photon was sampled from a cosine distribution independent of the incident angle. Although this approximation was sufficient for the original detector simulation, it did not accurately reproduce the optical response observed in the Module 2 detector. A noticeable discrepancy was found between the simulated optical response and the experimental detector data.
 
 To improve the optical simulation for Module 2, I (Manoj Adhikari) developed and implemented a Data-Driven Tyvek Optical Reflection Model based on experimental measurements of Tyvek reflectivity in water reported by:
