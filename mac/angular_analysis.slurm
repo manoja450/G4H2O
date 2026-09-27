@@ -4,15 +4,15 @@
 #SBATCH -t 1:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --mem=16G
-#SBATCH -o /home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4d2o_DATA_DRIVEN_COPY/mac/SLURMOUT/angular_analysis-%j.out
-#SBATCH -e /home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4d2o_DATA_DRIVEN_COPY/mac/SLURMOUT/angular_analysis-%j.out
+#SBATCH --mem=1G
+#SBATCH -o /home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4H2O/mac/SLURMOUT/angular_analysis-%j.out
+#SBATCH -e /home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4H2O/mac/SLURMOUT/angular_analysis-%j.out
 
 # Get timestamp for this run
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 # Base directory (mac folder)
-BASE_DIR="/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4d2o_DATA_DRIVEN_COPY/mac"
+BASE_DIR="/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4H2O/mac"
 SLURM_DIR="${BASE_DIR}/SLURMOUT"
 
 # Create SLURM output directory if it doesn't exist
