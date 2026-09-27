@@ -213,13 +213,9 @@ void G4d2oEventAction::ProcessEvent(void)
 
     eventNumber = numEvents;
 
-    // ============================================================
-    // Set event number for both models
-    // ============================================================
-    // For Data-Driven model: the custom boundary uses this via the reflector.
+   
     G4d2oMaterialsDefinition::SetCurrentEventNumber(eventNumber);
 
-    // For Unified model: the stepping action needs the event ID to fill the tree.
     G4d2oSteppingAction* stepAct = (G4d2oSteppingAction*)G4RunManager::GetRunManager()->GetUserSteppingAction();
     if (stepAct) stepAct->SetEventID(eventNumber);
 
@@ -555,9 +551,7 @@ void G4d2oEventAction::ProcessEvent(void)
         }
     }
 
-    // ============================================================
-    // STORE PHOTON INSTRUMENTATION STATISTICS (for Sim_Tree)
-    // ============================================================
+
     if (stepAct) {
         theEventData->nReflections = stepAct->GetReflectionCount();
         theEventData->totalPathLength = stepAct->GetTotalPathLength() / mm;
