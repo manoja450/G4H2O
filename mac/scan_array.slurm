@@ -32,6 +32,6 @@ python --version
 # ================================================================
 # GO TO MAC DIRECTORY AND RUN THE SCAN
 # ================================================================
-cd /home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4d2o_DATA_DRIVEN_COPY/mac
+cd /home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4H2O/mac
 
 python michel_parameter_scan.py --mode run --index "${SLURM_ARRAY_TASK_ID}"
