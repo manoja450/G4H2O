@@ -340,13 +340,6 @@ G4double G4d2oDataDrivenReflector::SampleOutgoingAngle(G4double incidentAngleDeg
     return GetThetaOut(incidentAngleDeg);
 }
 
-// ============================================================
-// Reflection Direction (Main interface for Geant4)
-// NOTE: not currently called from the active PostStepDoIt path (which
-// builds finalDir itself in G4d2oCustomOpBoundary.cc) - kept here for
-// API compatibility, with the matching fixes applied.
-// ============================================================
-
 G4ThreeVector G4d2oDataDrivenReflector::GetReflectionDirection(const G4ThreeVector& incomingDirection,
                                                                  const G4ThreeVector& normal,
                                                                  G4double incidentAngleRad) const {
@@ -368,12 +361,9 @@ G4ThreeVector G4d2oDataDrivenReflector::GetReflectionDirection(const G4ThreeVect
     }
     tangent = tangent.unit();
 
-    // Bitangent
     G4ThreeVector bitangent = norm.cross(tangent);
 
-    // Random azimuth (isotropic out-of-plane), built as a true rotation
-    // about norm so the normal component stays cos(thetaOut) for every
-    // azimuth (see G4d2oCustomOpBoundary.cc step 10 for the same fix).
+
     G4double azimuth = 2.0 * M_PI * fRandDist(fRNG);
     G4ThreeVector tangentialDir = std::cos(azimuth) * tangent + std::sin(azimuth) * bitangent;
     G4ThreeVector reflectedDir = std::cos(thetaOutRad) * norm + std::sin(thetaOutRad) * tangentialDir;
