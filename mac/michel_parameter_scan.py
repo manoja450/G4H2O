@@ -26,7 +26,7 @@ import uproot
 # Configuration
 # ============================================================================
 
-BASE_DIR = "/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4d2o_DATA_DRIVEN_COPY"
+BASE_DIR = "/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4H2O"
 DATA_DIR = os.path.join(BASE_DIR, "data")
 MAC_DIR = os.path.join(BASE_DIR, "mac")
 BEAMON_FILE = os.path.join(BASE_DIR, "beamOn.dat")
