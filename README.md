@@ -4,7 +4,7 @@
 
 In the original implementation, the Tyvek reflector was modelled using a 100% diffuse (Lambertian cosine) reflection model, where every reflected optical photon was sampled from a cosine distribution independent of the incident angle. Although this approximation was sufficient for the original detector simulation, it did not accurately reproduce the optical response observed in the Module 2 detector. A noticeable discrepancy was found between the simulated optical response and the experimental detector data.
 
-To improve the optical simulation for Module 2, I (Manoj Adhikari) developed and implemented a Data-Driven Tyvek Optical Reflection Model based on experimental measurements of Tyvek reflectivity in water reported by:
+To improve the optical simulation for Module 2, we developed and implemented a Data-Driven Tyvek Optical Reflection Model based on experimental measurements of Tyvek reflectivity in water reported by:
 
 Álvaro Chavarría, *A Study on the Reflective Properties of Tyvek in Air and Underwater*, Department of Physics, Duke University (2007). https://phy.duke.edu/~schol/superk/alvaro_thesis.pdf
 
