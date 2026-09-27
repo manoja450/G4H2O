@@ -6,9 +6,6 @@ Michel Spectrum Parameter Scan: Reflectivity x H2oAttenuationLengthCoefficient
 - 600-POINT FULL GRID SCAN (30×20)
 - WITH PMT QUALITY CUT (>= 2 PE per PMT)
 
-This matches the real data quality cuts from hasMultiplicityCut.py.
-"""
-
 import argparse
 import glob
 import json
@@ -39,7 +36,7 @@ GEANT4_EXECUTABLE = os.path.join(BASE_DIR, "build", "G4d2o")
 MIN_PE_THRESHOLD = 60.0
 
 # ================================================================
-# PMT QUALITY CUT (matches hasMultiplicityCut.py)
+# PMT QUALITY CUT
 # ================================================================
 MIN_HITS_PER_PMT = 2
 N_PMTS = 12
@@ -79,7 +76,7 @@ def total_grid_points():
 
 
 # ============================================================================
-# PMT QUALITY MASK (matches hasMultiplicityCut.py)
+# PMT QUALITY MASK 
 # ============================================================================
 
 def build_pmt_quality_mask(pmt_num, min_hits_per_pmt=MIN_HITS_PER_PMT, n_pmts=N_PMTS):
@@ -180,11 +177,6 @@ def get_real_data_mu_sigma():
     
     print(f"Real data: mu={mu_data:.2f} sigma={sigma_data:.2f} (from {total:.0f} events)")
     return mu_data, sigma_data
-
-
-# ============================================================================
-# RUN GEANT4 WITH COMMAND-LINE RUN NUMBER
-# ============================================================================
 
 def run_geant4(sim_output_path, run_number):
     """
