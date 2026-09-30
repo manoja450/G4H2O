@@ -51,11 +51,6 @@ G4ClassificationOfNewTrack G4d2oStackingAction::ClassifyNewTrack(const G4Track *
   if (the_track->GetDefinition() == G4OpticalPhoton::OpticalPhotonDefinition() ) {
     G4double energy_eV = the_track->GetTotalEnergy() / eV;
 
-    // Checks in WCSim StackngAction regardng process type etc...
-    // Are those necessary? Or can we just kill based on energy?
-    // Checks that the process type !=3 ...which I think just means not created from an optical process
-    //  e.g. reflection?
-    //  So probably needed so don't throw the dice multiple time for a single photon
 // (b) fDetector pointer
 if ( kprocess && kprocess->GetProcessType() != 3 && fDetector )  // ← guard
 {
@@ -65,8 +60,6 @@ if ( kprocess && kprocess->GetProcessType() != 3 && fDetector )  // ← guard
 
     }
   
-
-  // Remove primary particles generated within the pmt volume
 // (a) the_track->GetVolume()
 if ( the_track->GetParentID() == 0 )
 {
