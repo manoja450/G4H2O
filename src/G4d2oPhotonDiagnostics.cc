@@ -376,9 +376,6 @@ void G4d2oPhotonDiagnostics::PrintGlobalSummary() const {
     G4cout << std::string(70, '=') << "\n" << G4endl;
 }
 
-// ============================================================
-// FIXED: PrintChainSummary() - PHYSICALLY CORRECT CHAIN
-// ============================================================
 
 void G4d2oPhotonDiagnostics::PrintChainSummary() const {
     G4cout << "\n" << std::string(70, '=') << G4endl;
@@ -394,12 +391,6 @@ void G4d2oPhotonDiagnostics::PrintChainSummary() const {
     G4int totalMaxReflections = fTerminationCounts.at(kMaxReflections);
     G4int totalOther = fTerminationCounts.at(kOther);
 
-    // ============================================================
-    // PHYSICS RELATIONSHIPS (must hold):
-    // 1. Water survive = Cherenkov - WaterAbsorbed
-    // 2. PMT reach ≤ Water survive (physical law!)
-    // 3. PMT reach = termination count of kReachedPMT
-    // ============================================================
 
     G4int waterSurvive = totalC - totalWaterAbsorbed;
     G4int pmtReach = totalReachedPMT;
