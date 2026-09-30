@@ -170,8 +170,7 @@ G4VParticleChange* G4d2oCustomOpBoundary::PostStepDoIt(const G4Track& track,
     if (isTyvekBoundary) gTyvekReflections++; else gOtherReflections++;
 
     // Only apply the thesis-sampled Tyvek angular model at Tyvek
-    // boundaries. Anywhere else, this process reflects (acrylic/D2O,
-    // top-cap Tyvek via SetReflector, PMT photocathode, etc.), leave
+    // boundaries. Anywhere else, this process reflects; leave
     // Geant4's own decision alone - the thesis data describes Tyvek,
     // not those surfaces.
     if (!isTyvekBoundary) {
