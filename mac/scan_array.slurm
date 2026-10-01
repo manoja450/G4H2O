@@ -16,7 +16,7 @@ mkdir -p results_600
 # ================================================================
 # SET LD_LIBRARY_PATH
 # ================================================================
-export LD_LIBRARY_PATH=/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4d2o_DATA_DRIVEN_COPY/lib:/usr/lib64/root:/home/manoja450/geant4-install/lib64:/home/manoja450/xerces-install/lib64
+export LD_LIBRARY_PATH=/home/manoja450/G4WithoutLeadSheilding/MODULE2/CUSTOMOPTICALMODULE2/NEXTmodify/G4H2O/lib:/usr/lib64/root:/home/manoja450/geant4-install/lib64:/home/manoja450/xerces-install/lib64
 
 echo "LD_LIBRARY_PATH = $LD_LIBRARY_PATH"
 
