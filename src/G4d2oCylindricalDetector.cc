@@ -157,7 +157,7 @@ G4LogicalVolume * G4d2oCylindricalDetector::GetDetector(){
     // ============================================================
     // ============================================================
     G4LogicalVolume *targetLogV = GetH2OModuleLogV();
-    G4cout << "\n>>> USING MODULE 2 (both H2O) <<<" << G4endl;
+    G4cout << "\n>>> USING MODULE 2 (D2O target inside acrylic) <<<" << G4endl;
 
     ///// PMTs with mu-metal shield /////
     G4LogicalVolume *pmtLogV = 0;
@@ -196,7 +196,7 @@ G4LogicalVolume * G4d2oCylindricalDetector::GetDetector(){
     //              -> H2O tank
     //                 -(1)-> PMTs
     //                 -(2)-> acrylic tank
-    //                        -> target (H2O, Module 2)
+    //                        -> target (D2O, Module 1)
 
     ///// Place the target in acrylic tank /////
     G4VPhysicalVolume *targetPhysV = new G4PVPlacement(0,G4ThreeVector(0,0,0),targetLogV,"targetPhysV",acrylicLogV,false,0,true);
@@ -313,7 +313,7 @@ G4LogicalVolume * G4d2oCylindricalDetector::GetDetector(){
 G4LogicalVolume *G4d2oCylindricalDetector::GetH2OModuleLogV(){
     G4Tubs* h2oModuleSolid = new G4Tubs("h2oModuleSolid",0.0,d2oLength/2.0,d2oHeight/2.0,0.0,360.0*deg);
     G4LogicalVolume *h2oModuleLogV = new G4LogicalVolume(h2oModuleSolid,
-                                                         matPtr->GetMaterial( H2O ),
+                                                         matPtr->GetMaterial( D2O ),   // <-- D2O placed inside acrylic
                                                          "h2oModuleLogV");
     G4VisAttributes *visAttH2OModule = new G4VisAttributes();
     visAttH2OModule->SetColour(G4Colour(0.0, 0.8, 0.8));
